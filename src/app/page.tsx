@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import ModeToggle from '@/components/ui/ModeToggle';
 
 export default function Home() {
 	return (
@@ -6,6 +7,7 @@ export default function Home() {
 			<h1>Hello home page</h1>
 			<Button>Sign in</Button>
 			<Button variant={'secondary'}>Click me</Button>
+			<ModeToggle />
 		</div>
 	);
 }
