@@ -21,7 +21,7 @@ import ModeToggle from './ModeToggle';
 
 function MobileNavbar() {
 	const [showMobileMenu, setShowMobileMenu] = useState(false);
-	const isSignedIn = true;
+	const [isSignedIn, setIsSignedIn] = useState(false);
 
 	return (
 		<div className="flex md:hidden items-center space-x-2">
@@ -70,13 +70,17 @@ function MobileNavbar() {
 								</Button>
 								<Button
 									variant="ghost"
-									className="flex items-center gap-3 justify-start w-full">
+									className="flex items-center gap-3 justify-start w-full"
+									onClick={() => setIsSignedIn(!isSignedIn)}>
 									<LogOutIcon className="w-4 h-4" />
 									Logout
 								</Button>
 							</>
 						) : (
-							<Button variant="default" className="w-full">
+							<Button
+								variant="default"
+								className="w-full"
+								onClick={() => setIsSignedIn(!isSignedIn)}>
 								Sign In
 							</Button>
 						)}
