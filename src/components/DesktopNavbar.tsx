@@ -47,7 +47,7 @@ function DesktopNavbar() {
 						<Link
 							href={`/profile/${
 								user?.username ??
-								user?.email_address[0].split('@')[0]
+								user?.emailAddresses[0].split('@')[0]
 							}`}>
 							<UserIcon className="w-4 h-4" />
 							<span className="hidden lg:inline">Profile</span>
