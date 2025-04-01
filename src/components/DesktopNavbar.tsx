@@ -1,6 +1,6 @@
 'use client';
 
-import { fetchUserData } from '@/lib/auth';
+import { currentUser } from '@/lib/auth';
 import React, { useEffect, useState } from 'react';
 import ModeToggle from './ModeToggle';
 import { Button } from './ui/button';
@@ -13,7 +13,7 @@ function DesktopNavbar() {
 	const [isSignedIn, setIsSignedIn] = useState(false);
 
 	useEffect(() => {
-		fetchUserData().then((user) => setUser(user));
+		currentUser().then((user) => setUser(user));
 	}, []);
 
 	return (

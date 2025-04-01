@@ -1,11 +1,11 @@
 'use server';
 
-import { fetchUserData } from '@/lib/auth';
+import { currentUser } from '@/lib/auth';
 import prisma from '@/lib/prisma';
 
 export async function syncUser() {
 	try {
-		const user = await fetchUserData();
+		const user = await currentUser();
 		const userId = user?.userId;
 
 		if (!user) return;

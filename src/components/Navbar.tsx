@@ -2,11 +2,11 @@ import Link from 'next/link';
 import React from 'react';
 import DesktopNavbar from './DesktopNavbar';
 import MobileNavbar from './MobileNavbar';
-import { fetchUserData } from '@/lib/auth';
+import { currentUser } from '@/lib/auth';
 import { syncUser } from '@/actions/user.action';
 
 async function Navbar() {
-	const user = await fetchUserData();
+	const user = await currentUser();
 	if (user) await syncUser();
 
 	return (

@@ -1,7 +1,7 @@
 import { User } from './definitions';
 import mockUser from './mockData';
 
-export async function fetchUserData(): Promise<User> {
+export async function currentUser(): Promise<User> {
 	try {
 		return new Promise((resolve) =>
 			setTimeout(() => resolve(mockUser), 3000)
