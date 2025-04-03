@@ -1,20 +1,15 @@
-'use client';
+// 'use client';
 
-import { currentUser } from '@/lib/auth';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import ModeToggle from './ModeToggle';
 import { Button } from './ui/button';
 import Link from 'next/link';
 import { BellIcon, HomeIcon, UserIcon } from 'lucide-react';
-import { User } from '@/lib/definitions';
+import { IUser } from '@/lib/definitions';
 
-function DesktopNavbar() {
-	const [user, setUser] = useState<User | null>(null);
-	const [isSignedIn, setIsSignedIn] = useState(false);
-
-	useEffect(() => {
-		currentUser().then((user) => setUser(user));
-	}, []);
+async function DesktopNavbar({ user }: { user: IUser | null }) {
+	// console.log('DesktopNavbar user: ');
+	// console.log(session);
 
 	return (
 		<div className="hidden md:flex items-center space-x-4">
@@ -27,7 +22,7 @@ function DesktopNavbar() {
 				</Link>
 			</Button>
 
-			{isSignedIn ? (
+			{user ? (
 				<>
 					<Button
 						variant="ghost"
@@ -40,7 +35,7 @@ function DesktopNavbar() {
 							</span>
 						</Link>
 					</Button>
-					<Button
+					{/* <Button
 						variant="ghost"
 						className="flex items-center gap-2"
 						asChild>
@@ -52,18 +47,16 @@ function DesktopNavbar() {
 							<UserIcon className="w-4 h-4" />
 							<span className="hidden lg:inline">Profile</span>
 						</Link>
-					</Button>
-					<Button
-						variant="default"
-						onClick={() => setIsSignedIn(!isSignedIn)}>
-						Sign Out
+					</Button> */}
+					<Button variant="default">
+						{/* <Link href="/api/auth/logout">Logout</Link> */}
+						<a href="/api/auth/logout">Logout</a>
 					</Button>
 				</>
 			) : (
-				<Button
-					variant="default"
-					onClick={() => setIsSignedIn(!isSignedIn)}>
-					Sign In
+				<Button variant="default">
+					{/* <Link href="/api/auth/login">Login</Link> */}
+					<a href="/api/auth/login">Login</a>
 				</Button>
 			)}
 		</div>

@@ -1,16 +1,13 @@
 'use server';
 
-import { currentUser } from '@/lib/auth';
+import { IUser } from '@/lib/definitions';
 import prisma from '@/lib/prisma';
 
-export async function syncUser() {
+export async function syncUser(user: IUser) {
 	try {
-		const user = await currentUser();
-		const userId = user?.userId;
+		const userId = user.sub;
 
-		if (!user) return;
 		//check if user exists in db
-
 		const existingUser = await prisma.user.findUnique({
 			where: {
 				authId: userId,
@@ -22,10 +19,10 @@ export async function syncUser() {
 		const dbUser = await prisma.user.create({
 			data: {
 				authId: userId,
-				name: `${user.firstName || ''} ${user.lastName || ''}`,
-				username: user.username ?? user.emailAddresses[0].split('@')[0],
-				email: user.emailAddresses[0],
-				image: user.imageUrl,
+				name: `${user.name || ''}`,
+				username: user.nickname ?? user.email.split('@')[0],
+				email: user.email,
+				image: user.picture,
 			},
 		});
 
