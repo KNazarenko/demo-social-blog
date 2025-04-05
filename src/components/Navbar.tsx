@@ -11,7 +11,6 @@ async function Navbar() {
 	let user = null;
 	if (session) {
 		user = session.user as IUser;
-		console.log(user);
 	}
 	if (user) {
 		await syncUser(user);
