@@ -4,6 +4,7 @@ import './globals.css';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import Navbar from '@/components/Navbar';
 import { UserProvider } from '@auth0/nextjs-auth0/client';
+import Sidebar from '@/components/Sidebar';
 
 const geistSans = localFont({
 	src: './fonts/GeistVF.woff',
@@ -42,7 +43,7 @@ export default function RootLayout({
 								<div className="max-w-7xl mx-auto px-4">
 									<div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
 										<div className="hidden lg:block lg:col-span-3">
-											sidebar
+											<Sidebar />
 										</div>
 										<div className="col-span-9">
 											{children}
