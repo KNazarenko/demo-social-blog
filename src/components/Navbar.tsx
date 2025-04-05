@@ -9,12 +9,8 @@ import { syncUser } from '@/actions/user.action';
 async function Navbar() {
 	const session = await getSession();
 	let user = null;
-	if (session) {
-		user = session.user as IUser;
-	}
-	if (user) {
-		await syncUser(user);
-	}
+	if (session) user = session.user as IUser;
+	if (user) await syncUser(user);
 
 	return (
 		<nav className="sticky top-0 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50">

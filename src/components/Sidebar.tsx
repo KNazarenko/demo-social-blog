@@ -11,12 +11,11 @@ import { Separator } from './ui/separator';
 async function Sidebar() {
 	const session = await getSession();
 	let authUser = null;
-	if (session) {
-		authUser = session.user as IUser;
-	}
+	if (session) authUser = session.user as IUser;
+
 	if (!authUser) return <UnAuthenticatedSidebar />;
+
 	const user = await getUserByAuthId(authUser.sub);
-	console.log(user);
 	if (!user) return null;
 
 	return (
