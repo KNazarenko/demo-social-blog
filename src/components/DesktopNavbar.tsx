@@ -8,9 +8,6 @@ import { BellIcon, HomeIcon, UserIcon } from 'lucide-react';
 import { IUser } from '@/lib/definitions';
 
 async function DesktopNavbar({ user }: { user: IUser | null }) {
-	// console.log('DesktopNavbar user: ');
-	// console.log(session);
-
 	return (
 		<div className="hidden md:flex items-center space-x-4">
 			<ModeToggle />
@@ -49,13 +46,11 @@ async function DesktopNavbar({ user }: { user: IUser | null }) {
 						</Link>
 					</Button> */}
 					<Button variant="default">
-						{/* <Link href="/api/auth/logout">Logout</Link> */}
 						<a href="/api/auth/logout">Logout</a>
 					</Button>
 				</>
 			) : (
 				<Button variant="default">
-					{/* <Link href="/api/auth/login">Login</Link> */}
 					<a href="/api/auth/login">Login</a>
 				</Button>
 			)}
