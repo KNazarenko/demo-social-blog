@@ -2,6 +2,14 @@
 
 import { IUser } from '@/lib/definitions';
 import prisma from '@/lib/prisma';
+import { getSession } from '@auth0/nextjs-auth0';
+
+export async function getAuthUser() {
+	const session = await getSession();
+	let authUser = null;
+	if (session) authUser = session.user as IUser;
+	return authUser;
+}
 
 export async function syncUser(user: IUser) {
 	try {

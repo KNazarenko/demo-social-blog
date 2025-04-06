@@ -2,17 +2,13 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import Link from 'next/link';
 import { LinkIcon, MapPinIcon } from 'lucide-react';
-import { getSession } from '@auth0/nextjs-auth0';
 import { IUser } from '@/lib/definitions';
-import { getUserByAuthId } from '@/actions/user.action';
+import { getAuthUser, getUserByAuthId } from '@/actions/user.action';
 import { Avatar, AvatarImage } from './ui/avatar';
 import { Separator } from './ui/separator';
 
 async function Sidebar() {
-	const session = await getSession();
-	let authUser = null;
-	if (session) authUser = session.user as IUser;
-
+	const authUser: IUser | null = await getAuthUser();
 	if (!authUser) return <UnAuthenticatedSidebar />;
 
 	const user = await getUserByAuthId(authUser.sub);

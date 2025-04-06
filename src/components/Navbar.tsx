@@ -2,14 +2,11 @@ import Link from 'next/link';
 import React from 'react';
 import DesktopNavbar from './DesktopNavbar';
 import MobileNavbar from './MobileNavbar';
-import { getSession } from '@auth0/nextjs-auth0';
 import { IUser } from '@/lib/definitions';
-import { syncUser } from '@/actions/user.action';
+import { getAuthUser, syncUser } from '@/actions/user.action';
 
 async function Navbar() {
-	const session = await getSession();
-	let user = null;
-	if (session) user = session.user as IUser;
+	const user: IUser | null = await getAuthUser();
 	if (user) await syncUser(user);
 
 	return (
