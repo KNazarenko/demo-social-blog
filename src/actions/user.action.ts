@@ -56,3 +56,14 @@ export async function getUserByAuthId(userId: string) {
 		},
 	});
 }
+
+export async function getDbUserId() {
+	const authUser: IUser | null = await getAuthUser();
+	if (!authUser) return null;
+
+	const user = await getUserByAuthId(authUser.sub);
+
+	if (!user) throw new Error('User not found');
+
+	return user.id;
+}
