@@ -1,6 +1,11 @@
 'use client';
 
-import { createComment, getPosts, toggleLike } from '@/actions/post.action';
+import {
+	createComment,
+	deletePost,
+	getPosts,
+	toggleLike,
+} from '@/actions/post.action';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
@@ -16,6 +21,7 @@ import {
 	SendIcon,
 } from 'lucide-react';
 import { Textarea } from './ui/textarea';
+import { DeleteAlertDialog } from './DeleteAlertDialog';
 
 type Posts = Awaited<ReturnType<typeof getPosts>>;
 type Post = Posts[number];
@@ -63,6 +69,20 @@ function PostCard({ post, dbUserId }: { post: Post; dbUserId: string | null }) {
 		}
 	};
 
+	const handleDeletePost = async () => {
+		if (isDeleting) return;
+		try {
+			setIsDeleting(true);
+			const result = await deletePost(post.id);
+			if (result.success) toast.success('Post deleted successfully');
+			else throw new Error(result.error);
+		} catch (error) {
+			toast.error('Failed to delete post');
+		} finally {
+			setIsDeleting(false);
+		}
+	};
+
 	return (
 		<Card className="overflow-hidden">
 			<CardContent className="p-4 sm:p-6">
@@ -100,6 +120,12 @@ function PostCard({ post, dbUserId }: { post: Post; dbUserId: string | null }) {
 									</div>
 								</div>
 								{/* Check if current user is the post author */}
+								{dbUserId === post.author.id && (
+									<DeleteAlertDialog
+										isDeleting={isDeleting}
+										onDelete={handleDeletePost}
+									/>
+								)}
 							</div>
 							<p className="mt-2 text-sm text-foreground break-words">
 								{post.content}
