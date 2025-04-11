@@ -1,6 +1,6 @@
 'use client';
 
-import { getPosts, toggleLike } from '@/actions/post.action';
+import { createComment, getPosts, toggleLike } from '@/actions/post.action';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
@@ -9,7 +9,13 @@ import Link from 'next/link';
 import { Avatar, AvatarImage } from './ui/avatar';
 import { formatDistanceToNow } from 'date-fns';
 import { Button } from './ui/button';
-import { HeartIcon, MessageCircleIcon } from 'lucide-react';
+import {
+	HeartIcon,
+	LogInIcon,
+	MessageCircleIcon,
+	SendIcon,
+} from 'lucide-react';
+import { Textarea } from './ui/textarea';
 
 type Posts = Awaited<ReturnType<typeof getPosts>>;
 type Post = Posts[number];
@@ -38,6 +44,22 @@ function PostCard({ post, dbUserId }: { post: Post; dbUserId: string | null }) {
 			setHasLiked(post.likes.some((like) => like.userId === dbUserId));
 		} finally {
 			setIsLiking(false);
+		}
+	};
+
+	const handleAddComment = async () => {
+		if (!newComment.trim() || isCommenting) return;
+		try {
+			setIsCommenting(true);
+			const result = await createComment(post.id, newComment);
+			if (result?.success) {
+				toast.success('Comment posted successfully');
+				setNewComment('');
+			}
+		} catch (error) {
+			toast.error('Failed to add comment');
+		} finally {
+			setIsCommenting(false);
 		}
 	};
 
@@ -143,6 +165,7 @@ function PostCard({ post, dbUserId }: { post: Post; dbUserId: string | null }) {
 						</Button>
 					</div>
 
+					{/* COMMENTS SECTION */}
 					{showComments && (
 						<div className="space-y-4 pt-4 border-t">
 							<div className="space-y-4">
@@ -186,6 +209,56 @@ function PostCard({ post, dbUserId }: { post: Post; dbUserId: string | null }) {
 									</div>
 								))}
 							</div>
+
+							{user ? (
+								<div className="flex space-x-3">
+									<Avatar className="size-8 flex-shrink-0">
+										<AvatarImage
+											src={user?.picture || '/avatar.png'}
+										/>
+									</Avatar>
+									<div className="flex-1">
+										<Textarea
+											placeholder="Write a comment..."
+											value={newComment}
+											onChange={(e) =>
+												setNewComment(e.target.value)
+											}
+											className="min-h-[80px] resize-none"
+										/>
+										<div className="flex justify-end mt-2">
+											<Button
+												size="sm"
+												onClick={handleAddComment}
+												className="flex items-center gap-2"
+												disabled={
+													!newComment.trim() ||
+													isCommenting
+												}>
+												{isCommenting ? (
+													'Posting...'
+												) : (
+													<>
+														<SendIcon className="size-4" />
+														Comment
+													</>
+												)}
+											</Button>
+										</div>
+									</div>
+								</div>
+							) : (
+								<div className="flex justify-center p-4 border rounded-lg bg-muted/50">
+									<a href="/api/auth/login">
+										<Button
+											variant="outline"
+											className="gap-2">
+											<LogInIcon className="size-4" />
+											Sign in to comment
+										</Button>
+									</a>
+								</div>
+							)}
 						</div>
 					)}
 				</div>
