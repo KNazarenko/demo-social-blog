@@ -32,6 +32,18 @@ async function DesktopNavbar({ user }: { user: IUser | null }) {
 							</span>
 						</Link>
 					</Button>
+					<Button
+						variant="ghost"
+						className="flex items-center gap-2"
+						asChild>
+						<Link
+							href={`/profile/${
+								user.nickname ?? user.email.split('@')[0]
+							}`}>
+							<UserIcon className="w-4 h-4" />
+							<span className="hidden lg:inline">Profile</span>
+						</Link>
+					</Button>
 					<Button variant="default">
 						<a href="/api/auth/logout">Logout</a>
 					</Button>
