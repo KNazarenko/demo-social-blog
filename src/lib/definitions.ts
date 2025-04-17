@@ -9,6 +9,15 @@ export interface IUser {
 	sid: string;
 }
 
+export interface User {
+	userId: string;
+	firstName: string;
+	lastName: string;
+	emailAddresses: string[];
+	imageUrl: string;
+	username: string;
+}
+
 const Session = {
 	user: {
 		nickname: 'nko',
