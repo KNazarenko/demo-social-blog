@@ -18,10 +18,11 @@ import {
 import { useState } from 'react';
 import Link from 'next/link';
 import ModeToggle from './ModeToggle';
+import { useUser } from '@auth0/nextjs-auth0/client';
 
 function MobileNavbar() {
 	const [showMobileMenu, setShowMobileMenu] = useState(false);
-	const [isSignedIn, setIsSignedIn] = useState(false);
+	const { user, error, isLoading } = useUser();
 
 	return (
 		<div className="flex md:hidden items-center space-x-2">
@@ -48,7 +49,7 @@ function MobileNavbar() {
 							</Link>
 						</Button>
 
-						{isSignedIn ? (
+						{user ? (
 							<>
 								<Button
 									variant="ghost"
@@ -70,18 +71,14 @@ function MobileNavbar() {
 								</Button>
 								<Button
 									variant="ghost"
-									className="flex items-center gap-3 justify-start w-full"
-									onClick={() => setIsSignedIn(!isSignedIn)}>
+									className="flex items-center gap-3 justify-start w-full">
 									<LogOutIcon className="w-4 h-4" />
-									Logout
+									<a href="/api/auth/logout">Logout</a>
 								</Button>
 							</>
 						) : (
-							<Button
-								variant="default"
-								className="w-full"
-								onClick={() => setIsSignedIn(!isSignedIn)}>
-								Sign In
+							<Button variant="default" className="w-full">
+								<a href="/api/auth/login">Sign In</a>
 							</Button>
 						)}
 					</nav>
