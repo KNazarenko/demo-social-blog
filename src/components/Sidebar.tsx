@@ -111,7 +111,7 @@ const UnAuthenticatedSidebar = () => (
 				</Button>
 
 				<Button className="w-full mt-2" variant="default">
-					Sign Up
+					<a href="/api/auth/login">Sign Up</a>
 				</Button>
 			</CardContent>
 		</Card>
